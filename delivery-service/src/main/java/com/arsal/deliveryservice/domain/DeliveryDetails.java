@@ -34,7 +34,7 @@ public class DeliveryDetails {
     private Date timeToReachDestination;
 
     @Column(name = "restaurant_mean_time_to_prepare_food_in_minutes", nullable = false)
-    private Integer restaurantMeanTimeToPrepareFood;
+    private Integer restaurantMeanTimeToPrepareFoodInMinutes;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "expected_delivery_time", nullable = false)
@@ -42,10 +42,6 @@ public class DeliveryDetails {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public CustomerType getCustomerType() {
@@ -96,12 +92,12 @@ public class DeliveryDetails {
         this.timeToReachDestination = timeToReachDestination;
     }
 
-    public Integer getRestaurantMeanTimeToPrepareFood() {
-        return restaurantMeanTimeToPrepareFood;
+    public Integer getRestaurantMeanTimeToPrepareFoodInMinutes() {
+        return restaurantMeanTimeToPrepareFoodInMinutes;
     }
 
-    public void setRestaurantMeanTimeToPrepareFood(Integer restaurantMeanTimeToPrepareFood) {
-        this.restaurantMeanTimeToPrepareFood = restaurantMeanTimeToPrepareFood;
+    public void setRestaurantMeanTimeToPrepareFoodInMinutes(Integer restaurantMeanTimeToPrepareFoodInMinutes) {
+        this.restaurantMeanTimeToPrepareFoodInMinutes = restaurantMeanTimeToPrepareFoodInMinutes;
     }
 
     public Date getExpectedDeliveryTime() {
