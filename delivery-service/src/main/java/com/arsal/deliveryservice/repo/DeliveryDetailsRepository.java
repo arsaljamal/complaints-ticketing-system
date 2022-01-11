@@ -14,11 +14,11 @@ import java.util.Optional;
 @Repository
 public interface DeliveryDetailsRepository extends JpaRepository<DeliveryDetails, Long> {
 
-    Optional<List<DeliveryDetails>> findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNot(Date nowTimestamp,
-                                                                                               DeliveryStatus deliveryStatus);
+    Optional<List<DeliveryDetails>> findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNotAndIsProcessed(Date nowTimestamp,
+                                                                                               DeliveryStatus deliveryStatus, Boolean isProcessed);
 
-    Optional<List<DeliveryDetails>> findAllByCustomerTypeAndDeliveryStatusNot(CustomerType customerType, DeliveryStatus deliveryStatus);
+    Optional<List<DeliveryDetails>> findAllByCustomerTypeAndDeliveryStatusNotAndIsProcessed(CustomerType customerType, DeliveryStatus deliveryStatus, Boolean isProcessed);
 
-    @Query("SELECT delivery FROM DeliveryDetails delivery where delivery.expectedDeliveryTime < delivery.estimatedTimeOfDelivery and not delivery.deliveryStatus = ?1")
-    Optional<List<DeliveryDetails>> findAllDeliveriesWhenEstimatedTimeOfDeliveryIsGreaterThanExpectedDeliveryTime(DeliveryStatus deliveryStatus);
+    @Query("SELECT delivery FROM DeliveryDetails delivery where delivery.expectedDeliveryTime < delivery.estimatedTimeOfDelivery and not delivery.deliveryStatus = ?1 and delivery.isProcessed = ?2")
+    Optional<List<DeliveryDetails>> findAllDeliveriesWhenEstimatedTimeOfDeliveryIsGreaterThanExpectedDeliveryTimeAndIsProcessed(DeliveryStatus deliveryStatus, Boolean isProcessed);
 }

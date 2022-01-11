@@ -26,6 +26,10 @@ public class DeliveryDetailsService {
         this.deliveryDetailsRepository = deliveryDetailsRepository;
     }
 
+    public void updateDeliverDetailsToProcessed(DeliveryDetails deliveryDetails) {
+        deliveryDetails.setProcessed(Boolean.TRUE);
+        deliveryDetailsRepository.save(deliveryDetails);
+    }
     public void populateDeliveryDetailsTable() {
         DeliveryDetails deliveryDetails = new DeliveryDetails();
 
@@ -61,16 +65,17 @@ public class DeliveryDetailsService {
     public List<DeliveryDetails> getHighPriorityDeliveries() {
 
         List<DeliveryDetails> deliveryDetailsListByCustomerType = deliveryDetailsRepository.
-                findAllByCustomerTypeAndDeliveryStatusNot(CustomerType.VIP, DeliveryStatus.Order_Delivered).get();
+                findAllByCustomerTypeAndDeliveryStatusNotAndIsProcessed(CustomerType.VIP,
+                        DeliveryStatus.Order_Delivered, Boolean.FALSE).get();
 
         List<DeliveryDetails> deliveryDetailsListByExpectedDeliveryTimeHasPassed = deliveryDetailsRepository.
-                findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNot(new Date(),
-                        DeliveryStatus.Order_Delivered).get();
+            findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNotAndIsProcessed(new Date(),
+                        DeliveryStatus.Order_Delivered, Boolean.FALSE).get();
 
         List<DeliveryDetails> deliveryDetailsListByEstimatedTimeOfDeliveryGreaterThanExpectedDeliveryTime =
                 deliveryDetailsRepository.
-                findAllDeliveriesWhenEstimatedTimeOfDeliveryIsGreaterThanExpectedDeliveryTime(
-                        DeliveryStatus.Order_Delivered).get();
+                findAllDeliveriesWhenEstimatedTimeOfDeliveryIsGreaterThanExpectedDeliveryTimeAndIsProcessed(
+                        DeliveryStatus.Order_Delivered, Boolean.FALSE).get();
 
         return Stream.of(deliveryDetailsListByCustomerType,
                 deliveryDetailsListByExpectedDeliveryTimeHasPassed,
