@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class DeliveryDetailsService {
@@ -40,15 +42,39 @@ public class DeliveryDetailsService {
         Date nowTimeStamp = new Date();
         deliveryDetails.setTimeToReachDestination(RandomUtility.between(startOfDay, nowTimeStamp));
 
-        //ExpectedDeliveryTime = RestaurantMeanTimeToPrepareFoodInMinutes + TimeToReachDestination
-        Date expectedDeliveryTime = new Date(deliveryDetails.getRestaurantMeanTimeToPrepareFoodInMinutes().longValue()
-                + deliveryDetails.getTimeToReachDestination().getTime());
+        long bufferTime = (long) RandomUtility.getRandomNumberUsingNextInt(15,50) * 60 * 60;
+        Date expectedDeliveryTime = new Date(deliveryDetails.getTimeToReachDestination().getTime()
+                                                + bufferTime);
         deliveryDetails.setExpectedDeliveryTime(expectedDeliveryTime);
+
+        //EstimatedTimeOfDeliveryTime = RestaurantMeanTimeToPrepareFoodInMinutes + TimeToReachDestination
+        long  restaurantMeanTimeToPrepareFood = (long) deliveryDetails.
+                                                            getRestaurantMeanTimeToPrepareFoodInMinutes() * 60 * 60;
+        Date estimatedTimeOfDelivery = new Date( restaurantMeanTimeToPrepareFood
+                + deliveryDetails.getTimeToReachDestination().getTime());
+
+        deliveryDetails.setEstimatedTimeOfDelivery(estimatedTimeOfDelivery);
 
         deliveryDetailsRepository.save(deliveryDetails);
     }
 
-    public void getHighPriorityDeliveries() {
+    public List<DeliveryDetails> getHighPriorityDeliveries() {
 
+        List<DeliveryDetails> deliveryDetailsListByCustomerType = deliveryDetailsRepository.
+                findAllByCustomerTypeAndDeliveryStatusNot(CustomerType.VIP, DeliveryStatus.Order_Delivered).get();
+
+        List<DeliveryDetails> deliveryDetailsListByExpectedDeliveryTimeHasPassed = deliveryDetailsRepository.
+                findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNot(new Date(),
+                        DeliveryStatus.Order_Delivered).get();
+
+        List<DeliveryDetails> deliveryDetailsListByEstimatedTimeOfDeliveryGreaterThanExpectedDeliveryTime =
+                deliveryDetailsRepository.
+                findAllDeliveriesWhenEstimatedTimeOfDeliveryIsGreaterThanExpectedDeliveryTime(
+                        DeliveryStatus.Order_Delivered).get();
+
+        return Stream.of(deliveryDetailsListByCustomerType,
+                deliveryDetailsListByExpectedDeliveryTimeHasPassed,
+                deliveryDetailsListByEstimatedTimeOfDeliveryGreaterThanExpectedDeliveryTime).
+                flatMap(Collection::stream).collect(Collectors.toList());
     }
 }

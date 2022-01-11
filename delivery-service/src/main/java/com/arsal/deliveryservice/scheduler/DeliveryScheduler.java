@@ -21,8 +21,14 @@ public class DeliveryScheduler {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
+    public void populateDeliveries() {
         log.info("Saving Delivery");
         deliveryDetailsService.populateDeliveryDetailsTable();
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void getHighPriorityDeliveries() {
+        log.info("Fetching Delivery");
+        deliveryDetailsService.getHighPriorityDeliveries().forEach(System.out :: println);
     }
 }

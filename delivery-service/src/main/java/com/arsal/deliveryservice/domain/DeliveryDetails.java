@@ -40,6 +40,10 @@ public class DeliveryDetails {
     @Column(name = "expected_delivery_time", nullable = false)
     private Date expectedDeliveryTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expected_time_of_delivery", nullable = false)
+    private Date estimatedTimeOfDelivery;
+
     public Long getId() {
         return id;
     }
@@ -106,5 +110,29 @@ public class DeliveryDetails {
 
     public void setExpectedDeliveryTime(Date expectedDeliveryTime) {
         this.expectedDeliveryTime = expectedDeliveryTime;
+    }
+
+    public Date getEstimatedTimeOfDelivery() {
+        return estimatedTimeOfDelivery;
+    }
+
+    public void setEstimatedTimeOfDelivery(Date estimatedTimeOfDelivery) {
+        this.estimatedTimeOfDelivery = estimatedTimeOfDelivery;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryDetails{" +
+                "id=" + id +
+                ", customerType=" + customerType +
+                ", deliveryStatus=" + deliveryStatus +
+                ", riderRating=" + riderRating +
+                ", isProcessed=" + isProcessed +
+                ", currentDistanceFromDestinationInMeters=" + currentDistanceFromDestinationInMeters +
+                ", timeToReachDestination=" + timeToReachDestination +
+                ", restaurantMeanTimeToPrepareFoodInMinutes=" + restaurantMeanTimeToPrepareFoodInMinutes +
+                ", expectedDeliveryTime=" + expectedDeliveryTime +
+                ", estimatedTimeOfDelivery=" + estimatedTimeOfDelivery +
+                '}';
     }
 }
