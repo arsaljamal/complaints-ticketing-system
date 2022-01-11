@@ -1,6 +1,8 @@
 package com.arsal.ticketingservice.web;
 
+import com.arsal.ticketingservice.domain.Tickets;
 import com.arsal.ticketingservice.domain.Users;
+import com.arsal.ticketingservice.service.TicketsService;
 import com.arsal.ticketingservice.service.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/tickets")
 public class TicketingController {
@@ -16,13 +20,16 @@ public class TicketingController {
 
     private final UsersService usersService;
 
-    public TicketingController(UsersService usersService) {
+    private final TicketsService ticketsService;
+
+    public TicketingController(UsersService usersService, TicketsService ticketsService) {
         this.usersService = usersService;
+        this.ticketsService = ticketsService;
     }
 
     @GetMapping
-    public String getTickets() {
-        return "Ticket!";
+    public List<Tickets> getTickets() {
+        return ticketsService.findAllWithOrder();
     }
 
     @PostMapping("/signin")
