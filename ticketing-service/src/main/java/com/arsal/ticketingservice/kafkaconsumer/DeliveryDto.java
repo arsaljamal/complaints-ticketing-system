@@ -1,0 +1,78 @@
+package com.arsal.ticketingservice.kafkaconsumer;
+
+import java.util.Date;
+
+public class DeliveryDto {
+
+    private Long id;
+
+    private String customerType;
+
+    private String deliveryStatus;
+
+    private String riderRating;
+
+    private Date expectedDeliveryTime;
+
+    private Date estimatedTimeOfDelivery;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+
+    public String getRiderRating() {
+        return riderRating;
+    }
+
+    public void setRiderRating(String riderRating) {
+        this.riderRating = riderRating;
+    }
+
+    public Date getExpectedDeliveryTime() {
+        return expectedDeliveryTime;
+    }
+
+    public void setExpectedDeliveryTime(Date expectedDeliveryTime) {
+        this.expectedDeliveryTime = expectedDeliveryTime;
+    }
+
+    public Date getEstimatedTimeOfDelivery() {
+        return estimatedTimeOfDelivery;
+    }
+
+    public void setEstimatedTimeOfDelivery(Date estimatedTimeOfDelivery) {
+        this.estimatedTimeOfDelivery = estimatedTimeOfDelivery;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryDto{" +
+                "id=" + id +
+                ", customerType='" + customerType + '\'' +
+                ", deliveryStatus='" + deliveryStatus + '\'' +
+                ", riderRating='" + riderRating + '\'' +
+                ", expectedDeliveryTime=" + expectedDeliveryTime +
+                ", estimatedTimeOfDelivery=" + estimatedTimeOfDelivery +
+                '}';
+    }
+}
