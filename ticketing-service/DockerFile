@@ -1,0 +1,13 @@
+#Build Stage
+FROM maven:3.8.2-openjdk-8-slim AS MAVEN_BUILD
+COPY pom.xml /app/
+COPY src /app/src
+WORKDIR /app/
+RUN mvn -DskipTests package
+
+# Run Stage
+From openjdk:8
+WORKDIR /app
+COPY --from=MAVEN_BUILD /app/target/ticketing-service-0.0.1-SNAPSHOT.jar /app/
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","ticketing-service-0.0.1-SNAPSHOT.jar"]

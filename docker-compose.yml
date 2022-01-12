@@ -25,5 +25,42 @@ services:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ADVERTISED_HOST_NAME= kafka
     depends_on:
       - zookeeper
+
+
+  delivery-service:
+    container_name: delivery-service
+    build:
+      context: ./delivery-service
+      dockerfile: DockerFile
+    depends_on:
+      - kafka
+    links:
+      - kafka
+    environment:
+      profile: prod
+      broker: kafka
+      port: 29092
+      topic: tickets
+
+  ticketing-service:
+    container_name: ticketing-service
+    build:
+      context: ./ticketing-service
+      dockerfile: DockerFile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    links:
+      - kafka
+    environment:
+      profile: prod
+      broker: kafka
+      port: 29092
+      topic: tickets
+      roles: roles
+      secret: secret
+      expiration: 100000
