@@ -44,6 +44,7 @@ services:
       broker: kafka
       port: 29092
       topic: tickets
+      level: INFO
 
   ticketing-service:
     container_name: ticketing-service
@@ -64,3 +65,4 @@ services:
       roles: roles
       secret: secret
       expiration: 100000
+      level: INFO
