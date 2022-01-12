@@ -24,6 +24,7 @@ public class TicketsService {
         ticket.setCustomerType(deliveryDto.getCustomerType());
         ticket.setDeliveryStatus(deliveryDto.getDeliveryStatus());
         ticket.setRiderRating(deliveryDto.getRiderRating());
+        ticket.setTimeToReachDestination(deliveryDto.getTimeToReachDestination());
         ticket.setEstimatedTimeOfDelivery(deliveryDto.getEstimatedTimeOfDelivery());
         ticket.setExpectedDeliveryTime(deliveryDto.getExpectedDeliveryTime());
         ticketsRepository.save(ticket);

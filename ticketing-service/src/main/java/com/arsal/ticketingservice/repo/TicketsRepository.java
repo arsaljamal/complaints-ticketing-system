@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface TicketsRepository extends JpaRepository<Tickets, Long> {
 
-    @Query(value = "SELECT t from Tickets t order by t.customerType, t.expectedDeliveryTime, t.estimatedTimeOfDelivery desc ")
+    @Query(value = "SELECT t from Tickets t order by t.customerType desc , t.expectedDeliveryTime, t.estimatedTimeOfDelivery ")
     Optional<List<Tickets>> findAllWithOrder();
 }

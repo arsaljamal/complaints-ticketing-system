@@ -12,6 +12,8 @@ public class DeliveryDto {
 
     private String riderRating;
 
+    private Date timeToReachDestination;
+
     private Date expectedDeliveryTime;
 
     private Date estimatedTimeOfDelivery;
@@ -48,6 +50,14 @@ public class DeliveryDto {
         this.riderRating = riderRating;
     }
 
+    public Date getTimeToReachDestination() {
+        return timeToReachDestination;
+    }
+
+    public void setTimeToReachDestination(Date timeToReachDestination) {
+        this.timeToReachDestination = timeToReachDestination;
+    }
+
     public Date getExpectedDeliveryTime() {
         return expectedDeliveryTime;
     }
@@ -71,6 +81,7 @@ public class DeliveryDto {
                 ", customerType='" + customerType + '\'' +
                 ", deliveryStatus='" + deliveryStatus + '\'' +
                 ", riderRating='" + riderRating + '\'' +
+                ", timeToReachDestination=" + timeToReachDestination +
                 ", expectedDeliveryTime=" + expectedDeliveryTime +
                 ", estimatedTimeOfDelivery=" + estimatedTimeOfDelivery +
                 '}';

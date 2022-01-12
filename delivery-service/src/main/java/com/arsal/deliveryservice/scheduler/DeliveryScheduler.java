@@ -33,10 +33,7 @@ public class DeliveryScheduler {
     private String kafkaTopic;
 
     private DeliveryDto convertToDto(DeliveryDetails deliveryDetails) {
-        DeliveryDto deliveryDto = modelMapper.map(deliveryDetails, DeliveryDto.class);
-        deliveryDto.setCustomerType(deliveryDetails.getCustomerType().toString());
-        deliveryDto.setDeliveryStatus(deliveryDetails.getDeliveryStatus().toString());
-        return deliveryDto;
+        return modelMapper.map(deliveryDetails, DeliveryDto.class);
     }
 
     public void sendMessageToTicketTopic(String topic, DeliveryDto deliveryDto) {

@@ -24,6 +24,10 @@ public class Tickets {
     private String riderRating;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "time_to_reach_destination", nullable = false)
+    private Date timeToReachDestination;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "expected_delivery_time", nullable = false)
     private Date expectedDeliveryTime;
 
@@ -65,6 +69,14 @@ public class Tickets {
 
     public void setRiderRating(String riderRating) {
         this.riderRating = riderRating;
+    }
+
+    public Date getTimeToReachDestination() {
+        return timeToReachDestination;
+    }
+
+    public void setTimeToReachDestination(Date timeToReachDestination) {
+        this.timeToReachDestination = timeToReachDestination;
     }
 
     public Date getExpectedDeliveryTime() {
