@@ -2,6 +2,7 @@ package com.arsal.ticketingservice.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tickets")
@@ -93,5 +94,18 @@ public class Tickets {
 
     public void setEstimatedTimeOfDelivery(Date estimatedTimeOfDelivery) {
         this.estimatedTimeOfDelivery = estimatedTimeOfDelivery;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tickets tickets = (Tickets) o;
+        return Objects.equals(id, tickets.id) && Objects.equals(deliveryId, tickets.deliveryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, deliveryId);
     }
 }
