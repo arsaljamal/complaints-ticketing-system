@@ -18,11 +18,13 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(AccessDeniedException.class)
     public void handleAccessDeniedException(AccessDeniedException ex, HttpServletResponse res) throws IOException {
+        LOGGER.debug("Handled Access Denied Exception", ex);
         res.sendError(HttpStatus.FORBIDDEN.value(), "Access denied");
     }
 
     @ExceptionHandler(HttpServerErrorException.class)
     public void handleHttpServerErrorException(HttpServerErrorException ex, HttpServletResponse res) throws IOException {
+        LOGGER.debug("Handled Http Server Error Exception", ex);
         res.sendError(ex.getStatusCode().value(),ex.getMessage());
     }
 

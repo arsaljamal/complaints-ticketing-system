@@ -14,7 +14,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/tickets")
+@RequestMapping
 public class TicketingController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketingController.class);
 
@@ -27,13 +27,16 @@ public class TicketingController {
         this.ticketsService = ticketsService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/tickets")
+    @PreAuthorize("hasRole('ROLE_CSR')")
     public List<Tickets> getTickets() {
+        LOGGER.debug("Find All tickets api invoked.");
         return ticketsService.findAllWithOrder();
     }
 
     @PostMapping("/signin")
     public String login(@RequestBody LoginDto loginDto) {
+        LOGGER.debug("SignIn Api invoked by User :" + loginDto.getUsername() );
         return usersService.signin(loginDto.getUsername(), loginDto.getPassword()).orElseThrow(()->
                 new HttpServerErrorException(HttpStatus.FORBIDDEN, "Login Failed"));
     }
@@ -42,6 +45,7 @@ public class TicketingController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public Users signup(@RequestBody LoginDto loginDto){
+        LOGGER.debug("SignUp Api invoked by User :" + loginDto.getUsername() );
         return usersService.signup(loginDto.getUsername(), loginDto.getPassword())
                 .orElseThrow(() -> new HttpServerErrorException(HttpStatus.BAD_REQUEST,"User already exists"));
     }
