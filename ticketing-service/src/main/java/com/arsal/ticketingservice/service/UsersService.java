@@ -57,7 +57,7 @@ public class UsersService {
     }
 
     public Optional<Users> signup(String username, String password) {
-        LOGGER.info("New user attempting to sign in");
+        LOGGER.info("New user attempting to sign up");
         Optional<Users> user = Optional.empty();
         if (!usersRepository.findByUsername(username).isPresent()) {
             Optional<Roles> role = rolesRepository.findByRoleName("ROLE_CSR");
