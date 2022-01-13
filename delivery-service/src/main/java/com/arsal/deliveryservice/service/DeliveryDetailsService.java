@@ -6,6 +6,8 @@ import com.arsal.deliveryservice.domain.DeliveryStatus;
 import com.arsal.deliveryservice.domain.RiderRating;
 import com.arsal.deliveryservice.repo.DeliveryDetailsRepository;
 import com.arsal.deliveryservice.utility.RandomUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import java.util.stream.Stream;
 @Service
 public class DeliveryDetailsService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeliveryDetailsService.class);
+
     private final DeliveryDetailsRepository deliveryDetailsRepository;
 
     @Autowired
@@ -26,11 +30,18 @@ public class DeliveryDetailsService {
         this.deliveryDetailsRepository = deliveryDetailsRepository;
     }
 
+    public DeliveryDetails save(DeliveryDetails deliveryDetails) {
+        return deliveryDetailsRepository.save(deliveryDetails);
+    }
+
     public void updateDeliverDetailsToProcessed(DeliveryDetails deliveryDetails) {
+        LOGGER.debug("Updating DeliveryDetails " + deliveryDetails.getId() + " to Processed.");
         deliveryDetails.setProcessed(Boolean.TRUE);
         deliveryDetailsRepository.save(deliveryDetails);
     }
-    public void populateDeliveryDetailsTable() {
+
+    public DeliveryDetails populateDeliveryDetails() {
+        LOGGER.debug("Populating DeliveryDetails with random data.");
         DeliveryDetails deliveryDetails = new DeliveryDetails();
 
         deliveryDetails.setDeliveryStatus(RandomUtility.randomEnum(DeliveryStatus.class));
@@ -59,17 +70,17 @@ public class DeliveryDetailsService {
 
         deliveryDetails.setEstimatedTimeOfDelivery(estimatedTimeOfDelivery);
 
-        deliveryDetailsRepository.save(deliveryDetails);
+        return save(deliveryDetails);
     }
 
-    public List<DeliveryDetails> getHighPriorityDeliveries() {
-
+    public List<DeliveryDetails> getHighPriorityDeliveries(Date nowTimeStamp) {
+        LOGGER.debug("High Priority Deliveries being fetched.");
         List<DeliveryDetails> deliveryDetailsListByCustomerType = deliveryDetailsRepository.
                 findAllByCustomerTypeAndDeliveryStatusNotAndIsProcessed(CustomerType.VIP,
                         DeliveryStatus.Order_Delivered, Boolean.FALSE).get();
 
         List<DeliveryDetails> deliveryDetailsListByExpectedDeliveryTimeHasPassed = deliveryDetailsRepository.
-            findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNotAndIsProcessed(new Date(),
+            findAllByExpectedDeliveryTimeIsLessThanAndDeliveryStatusIsNotAndIsProcessed(nowTimeStamp,
                         DeliveryStatus.Order_Delivered, Boolean.FALSE).get();
 
         List<DeliveryDetails> deliveryDetailsListByEstimatedTimeOfDeliveryGreaterThanExpectedDeliveryTime =

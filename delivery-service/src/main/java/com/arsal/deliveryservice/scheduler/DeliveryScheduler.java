@@ -14,11 +14,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.util.Date;
+
 
 @Component
 public class DeliveryScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(DeliveryScheduler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeliveryScheduler.class);
 
     @Autowired
     private DeliveryDetailsService deliveryDetailsService;
@@ -42,26 +44,27 @@ public class DeliveryScheduler {
         future.addCallback(new ListenableFutureCallback<SendResult<String, DeliveryDto>>() {
             @Override
             public void onFailure(Throwable ex) {
-                log.info("Failure with following error :" + ex.getMessage());
+                LOGGER.info("Failure with following error :" + ex.getMessage());
             }
 
             @Override
             public void onSuccess(SendResult<String, DeliveryDto> result) {
-                log.info("Message : " + deliveryDto + ", Offset : " + result.getRecordMetadata().offset());
+                LOGGER.debug("Message : " + deliveryDto + ", Offset : " + result.getRecordMetadata().offset());
             }
         });
     }
 
     @Scheduled(fixedRate = 5000)
     public void populateDeliveries() {
-        log.info("Saving Delivery");
-        deliveryDetailsService.populateDeliveryDetailsTable();
+        LOGGER.debug("Saving Delivery");
+        deliveryDetailsService.populateDeliveryDetails();
     }
 
     @Scheduled(fixedRate = 5000)
     public void getHighPriorityDeliveries() {
-        log.info("Sending Delivery to topic");
-        deliveryDetailsService.getHighPriorityDeliveries().
+        LOGGER.debug("Sending Delivery to kafka topic");
+        Date nowTimeStamp = new Date();
+        deliveryDetailsService.getHighPriorityDeliveries(nowTimeStamp).
                 forEach(deliveryDetails -> {
                             sendMessageToTicketTopic(kafkaTopic, convertToDto(deliveryDetails));
                             deliveryDetailsService.updateDeliverDetailsToProcessed(deliveryDetails);
