@@ -2,6 +2,8 @@ package com.arsal.ticketingservice.security;
 
 import com.arsal.ticketingservice.domain.Users;
 import com.arsal.ticketingservice.repo.UsersRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +16,7 @@ import static org.springframework.security.core.userdetails.User.withUsername;
 
 @Service
 public class TicketUserDetailsService implements UserDetailsService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TicketUserDetailsService.class);
 
     private final UsersRepository usersRepository;
 

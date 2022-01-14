@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtConfiguration.class);
 
     private final String rolesKey;
 

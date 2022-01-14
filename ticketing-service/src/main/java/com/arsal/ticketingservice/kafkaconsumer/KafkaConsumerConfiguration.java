@@ -2,6 +2,8 @@ package com.arsal.ticketingservice.kafkaconsumer;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumerConfiguration.class);
 
     @Value(value = "${kafka.broker.url}")
     private String kafkaAddress;

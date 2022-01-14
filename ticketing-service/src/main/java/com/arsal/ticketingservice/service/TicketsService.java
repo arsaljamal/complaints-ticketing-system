@@ -26,6 +26,7 @@ public class TicketsService {
     }
 
     public Tickets populateTickets(DeliveryDto deliveryDto) {
+        LOGGER.debug("Populating Tickets from DeliveryDto");
         Tickets ticket = new Tickets();
         ticket.setDeliveryId(deliveryDto.getId());
         ticket.setCustomerType(deliveryDto.getCustomerType());
