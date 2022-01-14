@@ -38,6 +38,6 @@ Response is a token :
     eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhcnNhbCIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0NTUiJ9XSwiaWF0IjoxNjQyMDk3MzE1LCJleHAiOjE2NDIwOTc0MTV9.O7SwdRTvWunUowzd8YB1OwkYwuns5uAhKGv_WcIIZJo
 
 3.) For Tickets `localhost:8080/tickets` its http GET method, <br />
-Authorization Bearer : <Token>
+Authorization Bearer : Token
 
 Response is a list of Tickets : `[{TicketJson1}, {TicketJson2}, ...]` <br />
