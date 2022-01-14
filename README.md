@@ -21,11 +21,19 @@ for them to interact with each other I have kafka as a queue. <br />
 ### Deployed on Port `localhost:8080`
 
 ## Api's
-1.) For SignUp `localhost:8080/signup` it's http POST method, <br />
+
+### Credentials : 
+1) username : admin, password : admin123 (Role_Admin) <br />
+2) username : arsal, password : admin123 (Role_Csr) <br />
+
+4.) For SignUp `localhost:8080/signup` it's http POST method, <br />
 Json : `{ 
 "username" : "james",
 "password" : "admin123"
 }` <br />
+
+Authorization Bearer : Token is needed <br />
+For SignUp call we will need the Admin credentials <br />
 
 2.) For SignIn `localhost:8080/signin` it's http POST method, <br />
 Json : `{
